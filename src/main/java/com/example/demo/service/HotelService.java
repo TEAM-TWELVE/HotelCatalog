@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.*;
-
+import org.apache.log4j.Logger;
 
 @Service
 public class HotelService {
+
+    private final Logger logger = Logger.getLogger(HotelService.class);
+
     @Value("${password}")
     private String password;
     @Value("${protocol}")
@@ -29,13 +32,14 @@ public class HotelService {
 
 
     public List<Hotel> findByCity(String city) throws Exception {
+        logger.info("/ GET findByCity called.");
         try (MongoDB mongoDB = new MongoDB(password, protocol, database, cluster, hostname, retryWrite)){
+            logger.info("Successfully entered try block with MongoDB connection established.");
             return mongoDB.hotel.find(eq("city", city)).into(new ArrayList<>());
-
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Could not connect to MongoDB. Error message: " + e.getMessage(), e);
+            throw new Exception("Couldn't connect to db", e);
         }
-        throw new Exception("Couldn't connect to db");
     }
 
 }

@@ -2,6 +2,7 @@ package com.example.demo.mongoDB;
 
 
 import com.example.demo.model.Hotel;
+import com.example.demo.service.HotelService;
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
 import com.mongodb.client.MongoClient;
@@ -10,22 +11,11 @@ import com.mongodb.client.MongoCollection;
 import org.bson.codecs.configuration.CodecRegistries;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.mongodb.MongoDbFactory;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
-import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
+import org.apache.log4j.Logger;
 
-import java.net.UnknownHostException;
-import java.util.function.Predicate;
 public class MongoDB implements AutoCloseable {
+
+    private final Logger logger = Logger.getLogger(MongoDB.class);
 
     private String password;
 
@@ -64,6 +54,8 @@ public class MongoDB implements AutoCloseable {
 
     @Override
     public void close() throws Exception {
+        logger.info("close called.");
         mongoClient.close();
+        logger.info("Connection closed.");
     }
 }
