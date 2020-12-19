@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
+
 import org.apache.log4j.Logger;
 @RestController
 @RequestMapping("/hotel")

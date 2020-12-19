@@ -2,38 +2,31 @@ package com.example.demo.service;
 
 import com.example.demo.model.Hotel;
 import com.example.demo.mongoDB.MongoDB;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.mongodb.client.model.Filters.*;
-import org.apache.log4j.Logger;
+
+import static com.mongodb.client.model.Filters.eq;
 
 @Service
 public class HotelService {
 
     private final Logger logger = Logger.getLogger(HotelService.class);
 
-    @Value("${password}")
-    private String password;
-    @Value("${protocol}")
-    private String protocol;
-    @Value("${database}")
-    private String database;
-    @Value("${cluster}")
-    private String cluster;
-    @Value("${hostname}")
-    private String hostname;
-    @Value("${retryWrite}")
-    private String retryWrite;
+    @Value("${connectionString}")
+    private String connectionString;
 
+
+    private MongoDB mongoDB = new MongoDB();
 
     public List<Hotel> findByCity(String city) throws Exception {
         logger.info("/ GET findByCity called.");
-        try (MongoDB mongoDB = new MongoDB(password, protocol, database, cluster, hostname, retryWrite)){
+        try{
+            mongoDB.connectToDB(connectionString);
             logger.info("Successfully entered try block with MongoDB connection established.");
             return mongoDB.hotel.find(eq("city", city)).into(new ArrayList<>());
         } catch (Exception e) {
