@@ -17,13 +17,16 @@ public class Hotel {
     private int stars;
     @BsonProperty(value = "city")
     private String city;
+    @BsonProperty(value = "country")
+    private String country;
 
-    public Hotel(String name, String address, int stars, String city) {
+    public Hotel(String name, String address, int stars, String country) {
         super();
         this.name = name;
         this.address = address;
         this.stars = stars;
         this.city = city;
+        this.country = country;
     }
 
     public Hotel() {
@@ -49,6 +52,10 @@ public class Hotel {
         return city;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
     public void setId(ObjectId id) {
         this.id = id;
     }
@@ -69,14 +76,20 @@ public class Hotel {
         this.city = city;
     }
 
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+
     @Override
     public String toString() {
         return "Hotel{" +
-                "id='" + id + '\'' +
+                "id=" + id +
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", stars=" + stars +
                 ", city='" + city + '\'' +
+                ", country='" + country + '\'' +
                 '}';
     }
 }
